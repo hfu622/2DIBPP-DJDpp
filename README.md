@@ -4,7 +4,7 @@
 
 ## Introduction
 
-This project introduces a new algorithm, **DJD++**, which improves upon the existing DJD heuristic to solve the **Two-Dimensional Irregular Bin Packing Problem**. The problem is based on packing rectangular bins with pieces that are polygons—both convex and non-convex shapes are supported. However, the shapes do not contain any curves.
+This project introduces a new algorithm, **DJD++**, which improves upon the existing DJD heuristic to solve the **Two-Dimensional Irregular Bin Packing Problem**. The problem is based on packing rectangular bins with pieces that are polygons—both convex and non-convex shapes are supported. The shapes contain no curves.
 
 ### Applicable Scenarios:
 
