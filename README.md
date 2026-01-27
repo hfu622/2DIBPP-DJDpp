@@ -10,3 +10,7 @@
 
 ```text
 java -jar target/demo-0.0.1-SNAPSHOT.jar
+```
+
+## Notice
+JDK VERSION:jdk-1.8
