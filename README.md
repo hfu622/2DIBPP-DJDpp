@@ -27,3 +27,9 @@ java -jar target/demo-0.0.1-SNAPSHOT.jar
 ## System Requirements
 
 * **JDK Version**: jdk-1.8
+
+---
+
+## Notice
+
+* If the input is .txt, make sure that each line starts with a space. (to be fixed)
