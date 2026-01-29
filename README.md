@@ -33,3 +33,4 @@ java -jar target/demo-0.0.1-SNAPSHOT.jar
 ## Notice
 
 * If the input file is **.txt**, make sure that each line starts with a **space**.
+* The web visualization uses the top-left corner of each bin as the origin, while our code uses the bottom-left corner. To view the packing result in the **correct orientation**, simply flip the images upside down.
