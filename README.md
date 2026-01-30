@@ -22,7 +22,7 @@ java -jar target/demo-0.0.1-SNAPSHOT.jar
 ```
 
 After execution, the application will start successfully.
-Application Port: 8090
+Then, you can access it via your browser at **localhost:8090**.
 
 ---
 ## Demonstration Example of DJD++ Packing
