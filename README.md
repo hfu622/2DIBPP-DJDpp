@@ -26,7 +26,7 @@ Then, you can access it via your browser at **localhost:8090**.
 
 ---
 ## Demonstration Example of DJD++ Packing
-This page is the main entry of the project.
+The following page is the main entry of the project.
 
 ![DJD++ Algorithm](https://github.com/user-attachments/assets/1643c2b6-b08a-434e-bade-f93a26152bd8)
 
