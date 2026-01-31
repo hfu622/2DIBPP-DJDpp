@@ -65,5 +65,6 @@ The upload rules and file format specifications can be viewed by clicking the bu
 
 ## Notice
 
+* All input numbers should be **integers**.
 * If the input file is **.txt**, make sure that each line starts with a **space**.
 * The web visualization uses the top-left corner of each bin as the origin, while our code uses the bottom-left corner. To view the packing result in the **correct orientation**, simply flip the images upside down.
