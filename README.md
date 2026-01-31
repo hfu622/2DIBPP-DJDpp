@@ -26,10 +26,12 @@ Then, you can access it via your browser at **localhost:8090**.
 
 ---
 ## Demonstration Example of DJD++ Packing
+### Step One
 The following page is the main entry of the project.
 
 ![DJD++ Algorithm](https://github.com/user-attachments/assets/1643c2b6-b08a-434e-bade-f93a26152bd8)
 
+### Step Two
 After entering the demonstration page, you can:
 - Select a **built-in example**, or
 - **Upload your own input files**.
@@ -44,6 +46,7 @@ The upload rules and file format specifications can be viewed by clicking the bu
 
 <img width="1880" height="905" alt="image" src="https://github.com/user-attachments/assets/ce613ef7-61d5-46ff-bd81-234d4c7b5600" />
 
+### Step Three:
 - Click the **Calculate** button to start the packing computation.
 - The computation time depends on:
   - The performance of the user's computer
