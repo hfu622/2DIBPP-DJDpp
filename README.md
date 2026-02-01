@@ -1,4 +1,4 @@
-# MergeDJD））））: A Fast Constructive Algorithm with Piece Merging for the Two-Dimensional Irregular Bin Packing Problem
+# MergeDJD: A Fast Constructive Algorithm with Piece Merging for the Two-Dimensional Irregular Bin Packing Problem
 
 ## Introduction
 
