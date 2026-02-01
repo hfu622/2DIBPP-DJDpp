@@ -1,8 +1,8 @@
-# DJD++: Improving the DJD Heuristic for the Two-Dimensional Irregular Bin Packing Problem
+# MergeDJD: A Fast Constructive Algorithm with Piece Merging for the Two-Dimensional Irregular Bin Packing Problem
 
 ## Introduction
 
-This project introduces a new algorithm, **DJD++**, which improves upon the existing DJD heuristic to solve the **Two-Dimensional Irregular Bin Packing Problem**. The problem is based on packing rectangular bins with pieces that are polygons—both convex and non-convex shapes are supported. The shapes contain no curves.
+This project introduces a new algorithm, **MergeDJD**, which improves upon the existing DJD heuristic to solve the **Two-Dimensional Irregular Bin Packing Problem**. The problem is based on packing rectangular bins with pieces that are polygons—both convex and non-convex shapes are supported. The shapes contain no curves.
 
 ### Applicable Scenarios:
 
@@ -65,7 +65,5 @@ The upload rules and file format specifications can be viewed by clicking the bu
 
 ## Notice
 
-* All input numbers should be **integers**.
+* All input numbers should be **integers**. To improve accuracy, we preprocessed the data by multiplying all coordinates by a scaling factor.
 * If the input file is **.txt**, make sure that each line starts with a **space**.
-* The web visualization uses the top-left corner of each bin as the origin, while our code uses the bottom-left corner. To view the packing result in the **correct orientation**, simply flip the images upside down.
-* TODO: 精度问题
