@@ -29,7 +29,7 @@ Then, you can access it via your browser at **localhost:8090**.
 ### Step One
 The following page is the main entry of the project.
 
-![DJD++ Algorithm](https://github.com/user-attachments/assets/1643c2b6-b08a-434e-bade-f93a26152bd8)
+<img width="1893" height="906" alt="image" src="https://github.com/user-attachments/assets/689c04a1-065b-4dc7-920d-8e8096308b69" />
 
 ### Step Two
 After entering the demonstration page, you can:
@@ -41,10 +41,12 @@ Currently, the supported file formats are:
 - `TXT`
 
 The upload rules and file format specifications can be viewed by clicking the button in the top-right corner of the page.
-<img width="1884" height="908" alt="image" src="https://github.com/user-attachments/assets/70ac7803-017b-4658-9a80-9b014dcbe8bf" />
+
+<img width="1877" height="915" alt="image" src="https://github.com/user-attachments/assets/0955667a-081e-4187-aa45-80d065f54747" />
+
 - The uploaded or selected input data will be displayed in the lower section of the page.
 
-<img width="1880" height="905" alt="image" src="https://github.com/user-attachments/assets/ce613ef7-61d5-46ff-bd81-234d4c7b5600" />
+<img width="1876" height="911" alt="image" src="https://github.com/user-attachments/assets/40e9ada3-401b-47da-938b-158c3afc657b" />
 
 ### Step Three:
 - Click the **Calculate** button to start the packing computation.
@@ -52,7 +54,7 @@ The upload rules and file format specifications can be viewed by clicking the bu
   - The performance of the user's computer
   - The size and complexity of the input data
 
-<img width="1866" height="896" alt="image" src="https://github.com/user-attachments/assets/683a2fae-d7ec-49b6-9168-016983755a90" />
+<img width="1869" height="904" alt="image" src="https://github.com/user-attachments/assets/759b2db3-7c67-434d-80d5-62d3f299ee49" />
 
 ---
 
