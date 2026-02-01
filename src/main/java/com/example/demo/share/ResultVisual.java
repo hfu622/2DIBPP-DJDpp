@@ -5,7 +5,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.Vector;
 
-// 可视化类
+
 public class ResultVisual extends JFrame{
 
 	private static final long serialVersionUID = 1L;
@@ -15,7 +15,7 @@ public class ResultVisual extends JFrame{
 	
 	public ResultVisual(Vector<Sheet> listaObjetos)  
 	{		
-		super("可视化结果");
+		super("visualization");
 		getContentPane().setBackground(Color.white);
 		listaObj = listaObjetos;
 		Panel p = new Panel();
@@ -34,7 +34,6 @@ public class ResultVisual extends JFrame{
 	}
 
 	
-	// 使用1000*1000展示
 	public void paint( Graphics g)
 	{
 		Sheet obj;
@@ -47,17 +46,12 @@ public class ResultVisual extends JFrame{
 		g.setFont( new Font( "Helvetica",Font.BOLD,18 ) );
 		g.setColor(Color.black);
 		g.drawString(name.concat(String.valueOf(objetoselec)), 55,45);
-		//g.setColor(Color.white);
-		g.setColor(new Color(169, 209, 142)); //底板颜色
-		// ????????
+		g.setColor(new Color(169, 209, 142));
 		double xfactor = obj.getXmax()/500.0;
 		double yfactor = obj.getYmax()/500.0;
 		double sfactor = obj.getXmax()/250.0;
-		// ?[50,50]?????????1000/2 = 500
-//        g.fillRect(50,50, obj.getXmax()/2,obj.getYmax()/2);
         g.fillRect(50,50, (int)(obj.getXmax()/xfactor),(int)(obj.getYmax()/yfactor));
 		g.setColor(Color.black);
-//        g.drawRect(50,50, obj.getXmax()/2,obj.getYmax()/2);
         g.drawRect(50,50, (int)(obj.getXmax()/xfactor),(int)(obj.getYmax()/yfactor));
         listapiezas = obj.getPzasInside();
         
@@ -70,12 +64,9 @@ public class ResultVisual extends JFrame{
         	
         	for(int j=0; j<pza.getvertices(); j++)
         	{
-//        		coordenadasX[j]=50+( pza.coordX[j] )/2;
-//        		coordenadasY[j]=50+( (obj.getYmax()-pza.coordY[j]) )/2;
 				coordenadasX[j]=50+ (int)(( pza.coordX[j] )/xfactor);
 				coordenadasY[j]=50+ (int)(( (obj.getYmax()-pza.coordY[j]) )/yfactor);
         	}
-        	//g.setColor(Color.pink);
 			g.setColor(new Color(191, 191, 191));
         	g.fillPolygon(coordenadasX, coordenadasY, pza.getvertices());
 			g.setColor(Color.black);
@@ -85,7 +76,6 @@ public class ResultVisual extends JFrame{
         	letrero = String.valueOf(pza.getnumber());
       		letrero = letrero.concat(" - ");
       		letrero = letrero.concat( String.valueOf(pza.isRotated() ) );
-//        	g.drawString(letrero,50+(pza.getXmin()+pza.getXmax())/4,50+( obj.getYmax()-(pza.getYmin()+pza.getYmax())/2 )/2 );
         	g.drawString(letrero,50+(int)((pza.getXmin()+pza.getXmax())/sfactor),50+(int)(( obj.getYmax()-(pza.getYmin()+pza.getYmax())/2 )/yfactor) );
         }
         

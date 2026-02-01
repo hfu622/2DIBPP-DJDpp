@@ -10,13 +10,13 @@ public class Sheet implements Comparable<Sheet>
 {
 	private int ancho;
 	private int alto;
-	private int numero_Objeto;  // 底板编号
-	private int arealibre;      // free area
-	int areaocupada;            // no free area
+	private int numero_Objeto;
+	private int arealibre;
+	int areaocupada;
 	private List<Piece> listaPiezas;
-	private static List<int[]> posiciones; // TODO:可能是预选的放置位置
+	private static List<int[]> posiciones;
 	private static List<Double> angulos;
-	private int Nopiezas;  //已经放置的零件个数
+	private int Nopiezas;
 
 
 	public Sheet(int XSize, int YSize, int NoObjeto){			
@@ -30,7 +30,6 @@ public class Sheet implements Comparable<Sheet>
 		angulos = new LinkedList<Double>();
 		Nopiezas = 0;
 
-		// ???????
 		int[] posicionA = {0, 0};
 		int[] posicionB = {ancho, 0};
 		int[] posicionC = {ancho, alto}; 
@@ -46,17 +45,14 @@ public class Sheet implements Comparable<Sheet>
 		angulos.add((double)270); 
 	}
 
-	// X max of the object  
 	public int getXmax(){
 		return ancho;
 	}
 
-	// Y max of the object  
 	public int getYmax(){
 		return alto;
 	}
 
-	// From all pieces inside the object, the maximum X coordinate.  
 	public int getMaximaX(){
 		int numpzas = listaPiezas.size();
 		if(numpzas==0)
@@ -72,7 +68,6 @@ public class Sheet implements Comparable<Sheet>
 		return maximo;
 	}
 
-	// From all pieces inside the object, the maximum Y coordinate.    
 	public int getMaximaY(){
 		int numpzas = listaPiezas.size();
 		if(numpzas==0)
@@ -99,7 +94,7 @@ public class Sheet implements Comparable<Sheet>
 		Nopiezas += 1;
 		addPosiciones(pieza);
 		addAngulos(pieza);
-	} // 在向底板中添加零件的同时，也将候选点加进去
+	}
 
 
 	public void addPreliminarPieza(Piece pieza){
@@ -107,8 +102,6 @@ public class Sheet implements Comparable<Sheet>
 	}
 
 
-	// Removes a preliminary piece
-	// ????
 	public void removePreliminarPieza(Piece pieza){
 		listaPiezas.remove(pieza);
 	}
@@ -121,7 +114,6 @@ public class Sheet implements Comparable<Sheet>
 		int[] posicion3 = {pieza.getXmax(),pieza.getYmax()}; 
 		int[] posicion4 = {pieza.getXmax(),pieza.getYmin()}; 
 		int[] posicion5 = {pieza.getXmax(),0};
-		// 原版的五个点版本，未加入零件顶点
 
 		if (!revisar(posicion1))
 			posiciones.add(posicion1);
@@ -134,8 +126,6 @@ public class Sheet implements Comparable<Sheet>
 		if (!revisar(posicion5))
 			posiciones.add(posicion5);
 
-		// 这里是我们的改进，加入了零件顶点
-		// TODO；original版本中应该注释掉，评估
 		for(int i = 0; i < pieza.getvertices(); i++){
 			int[] point = {pieza.coordX[i], pieza.coordY[i]};
 			if (!revisar(point))
@@ -144,8 +134,6 @@ public class Sheet implements Comparable<Sheet>
 	}
 
 
-	// This is useful for implementing rotation schemes
-	// ????
 	private void addAngulos(Piece pieza)
 	{
 		int n = pieza.getvertices();
@@ -252,7 +240,6 @@ public class Sheet implements Comparable<Sheet>
 	}
 
 
-	// ??????????
 	@Override
 	public int compareTo(Sheet o) {
 		double area0 = (double)this.getUsedArea()/(double)this.gettotalsize();
@@ -279,5 +266,3 @@ public class Sheet implements Comparable<Sheet>
 				'}';
 	}
 }
-
-

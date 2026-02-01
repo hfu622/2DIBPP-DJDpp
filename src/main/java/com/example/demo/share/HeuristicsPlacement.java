@@ -12,9 +12,9 @@ public class HeuristicsPlacement {
     public HeuristicsPlacement() {
     }
 
-    public boolean HAcomodo(Sheet objeto, Piece pieza, String Heur_Acom) {// 第三个参数设定了启发式算法，可选值有BL、EC、EC2、MA、MABR、MALBR
+    public boolean HAcomodo(Sheet objeto, Piece pieza, String Heur_Acom) {
         boolean acomodo = false;
-        if (Heur_Acom.equals("BL")) // bottomleft heuristic
+        if (Heur_Acom.equals("BL"))
             acomodo = BLHeuristic(objeto, pieza);
         else if (Heur_Acom.equals("EC")) acomodo = ECHeuristic(objeto, pieza);
         else if (Heur_Acom.equals("EC2")) acomodo = EC2Heuristic(objeto, pieza);
@@ -24,7 +24,6 @@ public class HeuristicsPlacement {
 
         return acomodo;
     }
-    // TODO: 搞清楚这些启发式算法是什么意思
 
 
     private boolean BLHeuristic(Sheet objeto, Piece pieza) {
@@ -37,7 +36,7 @@ public class HeuristicsPlacement {
             return posicionValida(objeto, pieza);
         }
         return false;
-    }// 从右上角开始，向左下方放置
+    }
 
 
     private boolean ECHeuristic(Sheet objeto, Piece pieza) {
@@ -62,13 +61,13 @@ public class HeuristicsPlacement {
 
         rotaciones = rotacionesAProbar4();
 
-        if (listapzas.isEmpty()) { // 当前箱子是空的，则直接放置在左下方
+        if (listapzas.isEmpty()) {
             for (int i = 0; i < rotaciones.size(); i++) {
                 angulo = rotaciones.get(i);
                 if (i == 0) pieza.rotate(angulo);
                 else pieza.rotate(angulo - anguloPrevio);
                 value = BLHeuristic(objeto, pieza);
-                if (value) { // 如果向左下方放置成功的话
+                if (value) {
                     X = pieza.getXmin();
                     Y = pieza.getYmin();
                     if (X < mejorX) {
@@ -101,8 +100,8 @@ public class HeuristicsPlacement {
             else pieza.rotate(angulo - anguloPrevio);
             for (int j = 0; j < listapuntos.size(); j++) {
                 posicion = listapuntos.get(j);
-                pieza.moveToXY(posicion[0], posicion[1], 2); // 将零件移动到候选的开始位置
-                runIntoBottomLeftPlacement(objeto, pieza); // 从开始位置继续向左下移动
+                pieza.moveToXY(posicion[0], posicion[1], 2);
+                runIntoBottomLeftPlacement(objeto, pieza);
 
                 if (!posicionValida(objeto, pieza)) continue;
 
@@ -256,7 +255,7 @@ public class HeuristicsPlacement {
         List<Double> rotaciones = new LinkedList<Double>();
         int X;
         int Y;
-        listapuntos = objeto.getPosiciones();  // BL start points
+        listapuntos = objeto.getPosiciones();
 
         rotaciones = rotacionesAProbar4();
 
@@ -269,15 +268,11 @@ public class HeuristicsPlacement {
                 pieza.rotate(angulo - anguloPrevio);
             }
 
-//            System.out.println("rotated coords: ");
-//            for (int k=0;k<pieza.getvertices();k++){
-//                System.out.println(pieza.getCoriX()[k]+", "+pieza.getCoriY()[k]);
-//            }
 
             for (int j = 0; j < listapuntos.size(); j++) {
                 posicion = listapuntos.get(j);
 
-                if (j == 1) {  // index starts from 0
+                if (j == 1) {
                     pieza.moveToXY(posicion[0], posicion[1], 1);
                 } else if (j == 2) {
                     pieza.moveToXY(posicion[0], posicion[1], 3);
@@ -287,33 +282,6 @@ public class HeuristicsPlacement {
                     pieza.moveToXY(posicion[0], posicion[1], 2);
                 }
 
-                // NOTE: comment here for bottom left placement
-//                if (posicionValida(objeto, pieza)) {
-//                    adyacencia = adyacenciaOP(objeto, pieza);
-//                    if (adyacencia == mejorAdyacencia) {
-//                        X = pieza.getXmin();
-//                        Y = pieza.getYmin();
-//                        if (X < mejorX) {
-//                            mejorX = X;
-//                            mejorY = Y;
-//                            mejorRotacion = angulo;
-//                        }
-//                        if (X == mejorX && Y < mejorY) {
-//                            mejorY = Y;
-//                            mejorRotacion = angulo;
-//                        }
-//                    } else if (adyacencia > mejorAdyacencia) {
-//                        mejorX = pieza.getXmin();
-//                        mejorY = pieza.getYmin();
-//                        mejorAdyacencia = adyacencia;
-//                        mejorRotacion = angulo;
-//                    }
-//                }
-
-//                System.out.println("moved coords: ");
-//                for (int k=0;k<pieza.getvertices();k++){
-//                    System.out.println(pieza.getCoriX()[k]+", "+pieza.getCoriY()[k]);
-//                }
 
                 temp = this.runIntoBottomLeftPlacement(objeto, pieza);
                 if (temp) {
@@ -348,9 +316,6 @@ public class HeuristicsPlacement {
             return false;
         }
 
-//        if (mejorX > objeto.getXmax() && mejorY > objeto.getYmax()) {
-//            return false;
-//        }
 
         pieza.desRotar();
         pieza.rotate(mejorRotacion);
@@ -546,10 +511,7 @@ public class HeuristicsPlacement {
         int X;
         int Y;
 
-        // TODO:可能是预选的放置位置
         listapuntos = objeto.getPosiciones();
-
-
         rotaciones = rotacionesAProbar4();
 
 
@@ -599,7 +561,7 @@ public class HeuristicsPlacement {
                     }
                 }
 
-                tempLeft = this.runIntoBottomLeftPlacement(objeto, pieza); // 向左下移动的情况
+                tempLeft = this.runIntoBottomLeftPlacement(objeto, pieza);
                 if (tempLeft) {
                     adyacencia = adyacenciaOP(objeto, pieza);
                     if (posicionValida(objeto, pieza)) {
@@ -695,7 +657,7 @@ public class HeuristicsPlacement {
                             }
                         }
 
-                        temp = this.runIntoBottomRightPlacement(objeto, pieza); // 向右下移动的情况
+                        temp = this.runIntoBottomRightPlacement(objeto, pieza);
                         if (temp) {
                             adyacencia = adyacenciaOP(objeto, pieza);
                             if (posicionValida(objeto, pieza)) {
@@ -787,13 +749,9 @@ public class HeuristicsPlacement {
         }
 
         if (mejorAdyacenciaLeft == mejorAdyacencia) {
-            Random random = new Random();
-            if (random.nextDouble() >= 0.5) {
-                flagLeft = false;
-            }
+            flagLeft = true;
         }
 
-        // 根据左下和右下两个方案的邻接性比较，选择最优方案
         pieza.desRotar();
         if (flagLeft) {
             pieza.rotate(mejorRotacionLeft);
@@ -1387,7 +1345,7 @@ public class HeuristicsPlacement {
     }
 
 
-    private static int cercaniaHorOP(Sheet objeto, Piece piezaOut) {
+    public static int cercaniaHorOP(Sheet objeto, Piece piezaOut) {
         int distancia = 0;
         int minima = 100000;
         Piece pzaIn;
@@ -2746,9 +2704,6 @@ public class HeuristicsPlacement {
 
     private static List<Double> rotacionesAProbar4() {
         List<Double> listaAngulos = new LinkedList<Double>();
-//        for (int i = 0; i <= 359; i += 10) {
-//            listaAngulos.add((double) i);
-//        }
         listaAngulos.add((double) 0);
         listaAngulos.add((double) 90);
         listaAngulos.add((double) 180);

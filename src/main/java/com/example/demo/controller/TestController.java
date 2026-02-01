@@ -16,7 +16,6 @@ import java.util.List;
 @RestController
 @CrossOrigin
 public class TestController {
-//    http://127.0.0.1:8090/test/list
     @GetMapping("/list")
     public List<User> getAllUsers(){
         List<User> userList = new ArrayList<>();
@@ -31,35 +30,24 @@ public class TestController {
 
     @GetMapping("/results")
     public List<List<Sheet>> getResults() throws Exception {
-        // TU002C5C5.txt
-        String instances = "JP1G";  //待求解的样例列表
+        String instances = "JP1G";
 
-        // 当前样例路径:
         File dirSingle = new File("D:/RESEARCH/DJD/NestingData/");
 
-        // 所有样例的路径:
         File dirAllInstance = new File("D:/RESEARCH/DJD/NestingData/");
 
-        // 所有结果存储:
         File dirSolution = new File("D:/RESEARCH/DJD/results1/" + instances + "/");
 
-        // 当前结果存储:
-//        File filePath = new File("C:/Users/Fortune/Desktop/results/");
         File filePath = new File("D:/develop/BPP-server/demo/src/main/resources/results/");
 
-        // 参数
-        int numHeuristics = 1;            // 使用的启发式算法个数，如MALBR, MALR, MABR, ...
-        // 原DJD中只用了BL
-        // 改进版本用的是MALBR
+        int numHeuristics = 1;
 
-        boolean repetition = true;        // 覆盖之前的结果
-        boolean graphVisual = true;        // 可视化图结果
+        boolean repetition = true;
+        boolean graphVisual = true;
 
-        // 结果存储路径
         if (!filePath.exists())
-            filePath.mkdir();            //如果文件夹不存在，新建一个
+            filePath.mkdir();
 
-        // 如果结果路径不存在，新建文件夹
         if (!dirSolution.exists())
             dirSolution.mkdir();
 

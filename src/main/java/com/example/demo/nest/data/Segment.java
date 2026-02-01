@@ -4,8 +4,8 @@ package com.example.demo.nest.data;
 import com.example.demo.nest.util.Config;
 
 
-public class Segment implements Cloneable{
-    public double x ;
+public class Segment implements Cloneable {
+    public double x;
     public double y;
 
     public boolean marked = false;
@@ -20,7 +20,7 @@ public class Segment implements Cloneable{
     @Override
     public boolean equals(Object obj) {
         Segment s = (Segment) obj;
-        if(x == s.x && y == s.y ){
+        if (x == s.x && y == s.y) {
             return true;
         }
         return false;
@@ -30,27 +30,27 @@ public class Segment implements Cloneable{
     }
 
 
-    public Segment(Segment srcSeg){
+    public Segment(Segment srcSeg) {
         this.x = srcSeg.x;
         this.y = srcSeg.y;
     }
 
-    public Segment(int x , int y ){
-        this.x = (double) x ;
+    public Segment(int x, int y) {
+        this.x = (double) x;
         this.y = (double) y;
     }
 
     public Segment(double x, double y) {
-        int Ix =(int) (x * Config.CLIIPER_SCALE);
-        int Iy =(int) (y * Config.CLIIPER_SCALE);
+        int Ix = (int) (x * Config.CLIIPER_SCALE);
+        int Iy = (int) (y * Config.CLIIPER_SCALE);
 
-        this.x = (double)Ix*1.0/Config.CLIIPER_SCALE;
-        this.y = (double)Iy *1.0/ Config.CLIIPER_SCALE;
+        this.x = (double) Ix * 1.0 / Config.CLIIPER_SCALE;
+        this.y = (double) Iy * 1.0 / Config.CLIIPER_SCALE;
     }
 
     @Override
     public String toString() {
-        return "x = "+ x+", y = "+y;
+        return "x = " + x + ", y = " + y;
     }
 
     public boolean isMarked() {
@@ -82,8 +82,7 @@ public class Segment implements Cloneable{
     }
 
     public void setX(double x) {
-        int lx =  (int)(x * Config.CLIIPER_SCALE);
-        this.x = lx*1.0/Config.CLIIPER_SCALE;
+        this.x = x;
     }
 
     public double getY() {
@@ -91,7 +90,6 @@ public class Segment implements Cloneable{
     }
 
     public void setY(double y) {
-        int ly = (int)(y * Config.CLIIPER_SCALE);
-        this.y =  ly*1.0/Config.CLIIPER_SCALE;
+        this.y = y;
     }
 }

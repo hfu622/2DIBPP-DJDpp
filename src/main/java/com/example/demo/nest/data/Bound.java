@@ -49,15 +49,12 @@ public class Bound {
         this.height = height;
     }
 
-    /**
-     * 计算面积
-     */
-    public double getArea(){
-        return height*width;
+    public double getArea() {
+        return height * width;
     }
 
     @Override
     public String toString() {
-        return "xmin = "+ xmin +" , ymin = "+ymin +" , width = "+width + ", height = "+height;
+        return "xmin = " + xmin + " , ymin = " + ymin + " , width = " + width + ", height = " + height;
     }
 }

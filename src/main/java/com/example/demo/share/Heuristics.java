@@ -5,29 +5,24 @@ import java.util.List;
 public class Heuristics {
     static Sheet nextObject;
     static Piece pza;
-    static int objectsMaximum = 30;    //最多使用的底板数量
-    static int piecesMaximum = 200;    //一次最多可以放置的零件数量
-    static boolean getOut = false;  //失败标记
-    private int[][] pieceUnfit = new int[objectsMaximum][piecesMaximum];                                    // 记录哪些不适合放
-    private int[][][] pieceUnfit2 = new int[objectsMaximum][piecesMaximum][piecesMaximum];                    // 记录哪些两个组合的不适合
-    private int[][][][] pieceUnfit3 = new int[objectsMaximum][piecesMaximum][piecesMaximum][piecesMaximum];    // 记录哪些三个组合的不适合
+    static int objectsMaximum = 30;
+    static int piecesMaximum = 200;
+    static boolean getOut = false;
+    private int[][] pieceUnfit = new int[objectsMaximum][piecesMaximum];
+    private int[][][] pieceUnfit2 = new int[objectsMaximum][piecesMaximum][piecesMaximum];
+    private int[][][][] pieceUnfit3 = new int[objectsMaximum][piecesMaximum][piecesMaximum][piecesMaximum];
 
 
-    /**
-     * filler选择策略
-     */
     public void Filler(List<Piece> listapiezas, List<Sheet> listaObjetos, int xObjeto, int yObjeto, String H_acomodo) {
         boolean acomodopieza = false;
         listapiezas = OrderPieces(listapiezas, 1);
 
-        for (int i = 0; i < listapiezas.size(); i++)  //降序
-        {
+        for (int i = 0; i < listapiezas.size(); i++) {
             if (acomodopieza) {
                 break;
             }
             pza = (Piece) listapiezas.get(i);
 
-            //for (int j = 0; j < listaObjetos.size(); j++)   // For hyper-heuristics
             for (int j = listaObjetos.size() - 1; j < listaObjetos.size(); j++) {
                 nextObject = (Sheet) listaObjetos.get(j);
                 if (pza.getTotalSize() <= nextObject.getFreeArea()) {
@@ -52,11 +47,10 @@ public class Heuristics {
 
 
     public static void First_Fit(List<Piece> listapiezas, List<Sheet> listaObjetos, int xObjeto, int yObjeto, String H_acomodo) {
-        boolean acomodopieza = false; //itemcanpack
-        boolean encontroObjeto = false; //bincanpack
+        boolean acomodopieza = false;
+        boolean encontroObjeto = false;
         HeuristicsPlacement acomodo = new HeuristicsPlacement();
         pza = (Piece) listapiezas.get(0);
-        //Search for an object to place the piece
         int n = listaObjetos.size();
         for (int j = 0; j < n; j++) {
             nextObject = (Sheet) listaObjetos.get(j);
@@ -151,7 +145,7 @@ public class Heuristics {
     }
 
 
-    public void Djang_and_Finch(List<Piece> listapiezas, List<Sheet> listaObjetos, int xObjeto, int yObjeto, String H_acomodo, double CapInicial, int type) {    // 第五个参数设定了放置启发式
+    public void Djang_and_Finch(List<Piece> listapiezas, List<Sheet> listaObjetos, int xObjeto, int yObjeto, String H_acomodo, double CapInicial, int type) {
         int ancho, anchoPza0;
         int numPiezas = listapiezas.size();
         boolean iguales = true;
@@ -188,50 +182,34 @@ public class Heuristics {
                 }
             }
 
-//        if (iguales) {
-//            Djang_and_Finch_1D(listapiezas, listaObjetos, xObjeto, yObjeto, H_acomodo, CapInicial, type);
-//        } else {
-//            Djang_and_Finch_2D(listapiezas, listaObjetos, xObjeto, yObjeto, H_acomodo, CapInicial, type);
-//        }
         Djang_and_Finch_2D(listapiezas, listaObjetos, xObjeto, yObjeto, H_acomodo, CapInicial, type);
     }
 
 
-    // DJD
     private void Djang_and_Finch_2D(List<Piece> listapiezas, List<Sheet> listaObjetos, int xObjeto, int yObjeto, String H_acomodo, double CapInicial, int type) {
         HeuristicsPlacement placement = new HeuristicsPlacement();
         boolean canPlace = false;
-        int increment = ((Sheet) listaObjetos.get(0)).gettotalsize() / 20;    // 每次增加的waste，1/20
-        int w = 0;                                                            // waste
-        listapiezas = OrderPieces(listapiezas, 1);                    // 按面积降序
-        boolean terminar = false;                                            // 决定什么时候开一个新的bin
+        int increment = ((Sheet) listaObjetos.get(0)).gettotalsize() / 20;
+        int w = 0;
+        listapiezas = OrderPieces(listapiezas, 1);
+        boolean terminar = false;
         getOut = false;
 
-        /**
-         * line 3-4, take the newst bin and fill the bin until 1/3
-         * 拿到最新的一个bin，填满1/3
-         */
-//		for (int j = 0; j < listaObjetos.size(); j++)   // Hyper-heuristics
-        // 先填满1/3
         for (int j = listaObjetos.size() - 1; j < listaObjetos.size(); j++) {
             nextObject = (Sheet) listaObjetos.get(j);
-            // capinicial = 1/3
             if (nextObject.getUsedArea() < nextObject.gettotalsize() * CapInicial) {
-                for (int i = 0; i < listapiezas.size(); i++)   //降序
-                {
+                for (int i = 0; i < listapiezas.size(); i++) {
                     pza = (Piece) listapiezas.get(i);
                     if (pza.getTotalSize() <= nextObject.getFreeArea()) {
                         pza.desRotar();
-                        // TODO：这里应该分为两个策略，一个是原始的bottomleft，一个是改进的bottomleft和bottomright比较
-                        // TODO：可以一次跑两种启发式，一个是原始，一个是改过的
                         canPlace = placement.HAcomodo(nextObject, pza, H_acomodo);
                         if (!canPlace) {
-                            pieceUnfit[j][i] = 1;   // 记录不适合放的
+                            pieceUnfit[j][i] = 1;
                         }
                         if (canPlace) {
                             nextObject.addPieza(pza);
                             listapiezas.remove(pza);
-                            listapiezas = AdjustOriginalPieces(listapiezas);  // adjust to the original order
+                            listapiezas = AdjustOriginalPieces(listapiezas);
                             return;
                         }
                     }
@@ -240,10 +218,6 @@ public class Heuristics {
         }
 
 
-        /**
-         * 尝试组合放置
-         */
-//		for (int j = 0; j < listaObjetos.size(); j++) // hyper-heuristics.
         for (int j = listaObjetos.size() - 1; j < listaObjetos.size(); j++) {
             nextObject = (Sheet) listaObjetos.get(j);
             w = 0;
@@ -254,13 +228,11 @@ public class Heuristics {
             }
 
             do {
-                // 尝试一个
                 unapieza(listapiezas, nextObject, H_acomodo, w);
                 if (getOut) {
                     listapiezas = AdjustOriginalPieces(listapiezas);
                     return;
                 }
-                // 尝试两个
                 if (listapiezas.size() > 1) {
                     dospiezas(listapiezas, nextObject, H_acomodo, w);
                     if (getOut) {
@@ -268,7 +240,6 @@ public class Heuristics {
                         return;
                     }
                 }
-                // 尝试三个
                 if (listapiezas.size() > 2) {
                     trespiezas(listapiezas, nextObject, H_acomodo, w);
                     if (getOut) {
@@ -277,59 +248,44 @@ public class Heuristics {
                     }
                 }
 
-                // end
                 if (w > nextObject.getFreeArea()) {
                     terminar = true;
                 }
-                w += increment;  //当w大于1时，可以尝试将其超出自由区域。假设自由区域为10999，增量为1000，建议在尝试w=10000后，再尝试w=11000，以便检查是否有面积小于999的零件或零件组合可以适合。
+                w += increment;
 
             } while (!terminar);
         }
 
         if (!listapiezas.isEmpty()) {
-            nextObject = abreNuevoObjeto(listaObjetos, xObjeto, yObjeto); //开新的底板
-            pza = SearchGreatest(listapiezas);                            //找到最大的一块零件放到下一个底板中
-            pza.desRotar(); // 取消旋转
+            nextObject = abreNuevoObjeto(listaObjetos, xObjeto, yObjeto);
+            pza = SearchGreatest(listapiezas);
+            pza.desRotar();
 
             canPlace = placement.HAcomodo(nextObject, pza, H_acomodo);
             if (canPlace) {
                 nextObject.addPieza(pza);
                 listapiezas.remove(pza);
             }
-            // 重新排序
             listapiezas = AdjustOriginalPieces(listapiezas);
         }
     }
 
-    /**
-     * 随机扰动的DJD
-     */
     private void Djang_and_Finch_2D_Random(List<Piece> listapiezas, List<Sheet> listaObjetos, int xObjeto, int yObjeto, String H_acomodo, double CapInicial, int type) {
 
         HeuristicsPlacement acomodo = new HeuristicsPlacement();
         boolean acomodopieza = false;
         int increment = ((Sheet) listaObjetos.get(0)).gettotalsize() / 20;
-        int w = 0; //allowed waste
-        listapiezas = OrderPieces(listapiezas, 1);  //descending order
-        //将最大的放到最后，比如TS011C8，如果我能找到那个最右下角的先放，得到好结果的可能性就很大，也就是说，这个算法很依赖初始零件的放置
+        int w = 0;
+        listapiezas = OrderPieces(listapiezas, 1);
         Piece remove = listapiezas.remove(0);
         listapiezas.add(remove);
-        boolean terminar = false;  // decides when to open a new bin.
+        boolean terminar = false;
         getOut = false;
 
-        /**
-         * line 3-4, take the newst bin and fill the bin until 1/3
-         * 拿到最新的一个bin，填满1/3
-         */
-
-        //for (int j = 0; j < listaObjetos.size(); j++)   // for Hyper-heuristics
-        // 这里开始注释
         for (int j = listaObjetos.size() - 1; j < listaObjetos.size(); j++) {
             nextObject = (Sheet) listaObjetos.get(j);
-            // capinicial = 1/3
             if (nextObject.getUsedArea() < nextObject.gettotalsize() * CapInicial) {
-                for (int i = 0; i < listapiezas.size(); i++)   //decreasing order of size
-                {
+                for (int i = 0; i < listapiezas.size(); i++) {
                     pza = (Piece) listapiezas.get(i);
                     if (pza.getTotalSize() <= nextObject.getFreeArea()) {
                         pza.desRotar();
@@ -340,7 +296,7 @@ public class Heuristics {
                         if (acomodopieza) {
                             nextObject.addPieza(pza);
                             listapiezas.remove(pza);
-                            listapiezas = AdjustOriginalPieces(listapiezas);  // adjust to the original order
+                            listapiezas = AdjustOriginalPieces(listapiezas);
                             return;
                         }
                     }
@@ -349,7 +305,6 @@ public class Heuristics {
         }
 
 
-        //for (int j = 0; j < listaObjetos.size(); j++) // For hyper-heuristics.
         for (int j = listaObjetos.size() - 1; j < listaObjetos.size(); j++) {
             nextObject = (Sheet) listaObjetos.get(j);
             w = 0;
@@ -360,13 +315,11 @@ public class Heuristics {
             }
 
             do {
-                // try one piece
                 unapieza(listapiezas, nextObject, H_acomodo, w);
                 if (getOut) {
                     listapiezas = AdjustOriginalPieces(listapiezas);
                     return;
                 }
-                // try two piece
                 if (listapiezas.size() > 1) {
                     dospiezas(listapiezas, nextObject, H_acomodo, w);
                     if (getOut) {
@@ -374,7 +327,6 @@ public class Heuristics {
                         return;
                     }
                 }
-                // try three piece
                 if (listapiezas.size() > 2) {
                     trespiezas(listapiezas, nextObject, H_acomodo, w);
                     if (getOut) {
@@ -383,7 +335,6 @@ public class Heuristics {
                     }
                 }
 
-                // end
                 if (w > nextObject.getFreeArea()) {
                     terminar = true;
                 }
@@ -393,15 +344,14 @@ public class Heuristics {
         }
 
 
-        nextObject = abreNuevoObjeto(listaObjetos, xObjeto, yObjeto); //开新的底板
-        pza = SearchGreatest(listapiezas);                            //找到最大的一块零件放到下一个底板中
-        pza.desRotar();                                            //取消旋转
+        nextObject = abreNuevoObjeto(listaObjetos, xObjeto, yObjeto);
+        pza = SearchGreatest(listapiezas);
+        pza.desRotar();
         acomodopieza = acomodo.HAcomodo(nextObject, pza, H_acomodo);
         if (acomodopieza) {
             nextObject.addPieza(pza);
             listapiezas.remove(pza);
         }
-        // 重排序
         listapiezas = AdjustOriginalPieces(listapiezas);
     }
 
@@ -410,18 +360,16 @@ public class Heuristics {
         HeuristicsPlacement acomodo = new HeuristicsPlacement();
         boolean acomodopieza = false;
         int increment = ((Sheet) listaObjetos.get(0)).gettotalsize() / 20;
-        int w = 0; //allowed waste
-        listapiezas = OrderPieces(listapiezas, 1);  //decreasing order of size
-        boolean terminar = false;  // decides when to open a new object
+        int w = 0;
+        listapiezas = OrderPieces(listapiezas, 1);
+        boolean terminar = false;
         getOut = false;
 
 
-        //for (int j = 0; j < listaObjetos.size(); j++)   // For hyper-heuristics
         for (int j = listaObjetos.size() - 1; j < listaObjetos.size(); j++) {
             nextObject = (Sheet) listaObjetos.get(j);
             if (nextObject.getUsedArea() < nextObject.gettotalsize() * CapInicial) {
-                for (int i = 0; i < listapiezas.size(); i++)   //decreasing order of size
-                {
+                for (int i = 0; i < listapiezas.size(); i++) {
                     pza = (Piece) listapiezas.get(i);
                     if (pza.getTotalSize() <= nextObject.getFreeArea()) {
                         pza.desRotar();
@@ -438,14 +386,13 @@ public class Heuristics {
         }
 
 
-        //for (int j = 0; j < listaObjetos.size(); j++) // For Hyper-heuristics
         for (int j = listaObjetos.size() - 1; j < listaObjetos.size(); j++) {
             nextObject = (Sheet) listaObjetos.get(j);
             w = 0;
             terminar = false;
 
             if (verificador(listapiezas, nextObject.getFreeArea())) {
-                continue;  //如果在free区域中已经没有空间可以放置任何零件，则需要移动到下一个bin。
+                continue;
             }
 
             do {
@@ -486,12 +433,10 @@ public class Heuristics {
             nextObject.addPieza(pza);
             listapiezas.remove(pza);
         }
-        // For hyper-heuristics (combining heuristics), it is important to leave the pieces in their original order.
         listapiezas = AdjustOriginalPieces(listapiezas);
     }
 
 
-    //判断是否合适
     private static boolean verificador(List<Piece> listapiezas1, int freearea) {
         Piece pza1;
         for (int i = listapiezas1.size() - 1; i >= 0; i--) {
@@ -517,7 +462,7 @@ public class Heuristics {
         for (int i = 0; i < listapiezas1.size(); i++) {
             pza1 = (Piece) listapiezas1.get(i);
             if ((arealibre - pza1.getTotalSize()) > w) {
-                break;  // 如果在自由区域中已经没有空间可以放置任何零件，则需要移动到下一个对象。
+                break;
             }
             if (pza1.getTotalSize() > arealibre
                     || (pieceUnfit[numObj][i] == 1)) {
@@ -567,15 +512,12 @@ public class Heuristics {
     }
 
 
-    /**
-     * try place two pieces
-     */
     private void dospiezas(List<Piece> listapiezas1, Sheet nextObject1, String H_acomodo1, int w1) {
         HeuristicsPlacement acomodo = new HeuristicsPlacement();
         Piece pza1, pza2;
         boolean acomodo1 = false, acomodo2 = false;
-        int area0, area1;  //面积最大的两个零件
-        int areaU;           //g面积最小的零件，minimum piece
+        int area0, area1;
+        int areaU;
         int arealibre;
         int numObj;
         pza1 = (Piece) listapiezas1.get(listapiezas1.size() - 1);
@@ -583,12 +525,10 @@ public class Heuristics {
         arealibre = nextObject1.getFreeArea();
         numObj = nextObject1.getNumObjeto();
 
-        // RECEIVES PIECES IN DESCENDING ORDER OF SIZE.
         pza1 = (Piece) listapiezas1.get(0);
         pza2 = (Piece) listapiezas1.get(1);
         area0 = pza1.getTotalSize();
         area1 = pza2.getTotalSize();
-        // 最大的两个先试下, the first biggest two
         if ((arealibre - area0 - area1) > w1) {
             return;
         }
@@ -597,11 +537,9 @@ public class Heuristics {
             acomodo1 = false;
             acomodo2 = false;
             pza1 = (Piece) listapiezas1.get(i);
-            // 第二行, line 2
             if (arealibre - pza1.getTotalSize() - area0 > w1) {
                 break;
             }
-            // 第四行，line 4
             if (pza1.getTotalSize() + areaU > arealibre
                     || (pieceUnfit[numObj][i] == 1)) {
                 continue;
@@ -612,7 +550,6 @@ public class Heuristics {
             if (acomodo1) {
                 nextObject1.addPreliminarPieza(pza1);
 
-                // 第10行， Line 10
                 for (int j = 0; j < listapiezas1.size(); j++) {
                     pza2 = (Piece) listapiezas1.get(j);
 
@@ -637,14 +574,12 @@ public class Heuristics {
                         getOut = true;
                         return;
                     } else {
-                        pieceUnfit2[numObj][i][j] = 1;  //pieces i & j cannot be placed in the object.
+                        pieceUnfit2[numObj][i][j] = 1;
                     }
                 }
-                // 这里相当于piece2没能放进去，也得把piece1删掉，感觉也可以放到上面
                 nextObject1.removePreliminarPieza(pza1);
 
             } else {
-                // 第8行，line 8
                 pieceUnfit[numObj][i] = 1;
             }
         }
@@ -665,7 +600,6 @@ public class Heuristics {
         arealibre = nextObject1.getFreeArea();
 
 
-        // RECEIVES PIECES IN DESCENDING ORDER OF SIZE.
         pza1 = (Piece) listapiezas1.get(0);
         pza2 = (Piece) listapiezas1.get(1);
         area0 = pza1.getTotalSize();
@@ -742,14 +676,12 @@ public class Heuristics {
         numObj = nextObject1.getNumObjeto();
 
 
-        // RECEIVES PIECES IN DESCENDING ORDER OF SIZE.
         pza1 = (Piece) listapiezas1.get(0);
         pza2 = (Piece) listapiezas1.get(1);
         pza3 = (Piece) listapiezas1.get(2);
         area0 = pza1.getTotalSize();
         area1 = pza2.getTotalSize();
         area2 = pza3.getTotalSize();
-        // line2: 最大的三个也不行, the biggest three cannot
         if ((arealibre - area0 - area1 - area2) > w1) {
             return;
         }
@@ -763,7 +695,6 @@ public class Heuristics {
             if (arealibre - pza1.getTotalSize() - area0 - area1 > w1) {
                 break;
             }
-            // line 4: 剩余空间放不下
             if (pza1.getTotalSize() + areaU1 + areaU2 > arealibre
                     || pieceUnfit[numObj][i] == 1) {
                 continue;
@@ -828,7 +759,7 @@ public class Heuristics {
 
                         nextObject1.removePreliminarPieza(pza2);
                     } else {
-                        pieceUnfit2[numObj][i][j] = 1;  //pieces i & j cannot be placed in the object.
+                        pieceUnfit2[numObj][i][j] = 1;
                     }
 
                 }
@@ -908,8 +839,7 @@ public class Heuristics {
                             }
 
                             if ((pza1.getTotalSize() + pza2.getTotalSize() + pza3.getTotalSize()) > arealibre
-                                    || i == k || j == k) //Same warning from method "dospiezas"
-                            {
+                                    || i == k || j == k) {
                                 continue;
                             }
 
@@ -1070,7 +1000,6 @@ public class Heuristics {
         for (int i = 0; i < listaObjetos.size(); i++) {
             ordenObjetos[i] = i;
         }
-        //ordena objetos por área libre
         for (int i = 0; i < listaObjetos.size(); i++) {
             for (int j = 0; j < listaObjetos.size() - 1; j++) {
                 objy = (Sheet) listaObjetos.get(ordenObjetos[j]);
@@ -1121,7 +1050,6 @@ public class Heuristics {
         for (int i = 0; i < listaObjetos.size(); i++) {
             ordenObjetos[i] = i;
         }
-        //ordena objetos por área libre
         for (int i = 0; i < listaObjetos.size(); i++) {
             for (int j = 0; j < listaObjetos.size() - 1; j++) {
                 objy = (Sheet) listaObjetos.get(ordenObjetos[j]);
@@ -1169,7 +1097,6 @@ public class Heuristics {
     }
 
 
-    // 1: 降序,  其他: 升序.
     private static List<Piece> OrderPieces(List<Piece> ListaPiezas, int Orderd) {
         Piece temporal;
         List<Piece> ListOrdered = ListaPiezas;
@@ -1194,9 +1121,6 @@ public class Heuristics {
     }
 
 
-    /**
-     * 对零件重新排序
-     */
     private static List<Piece> AdjustOriginalPieces(List<Piece> ListaPiezas) {
         Piece temporal;
         List<Piece> ListaOrdenOriginal = ListaPiezas;
@@ -1207,8 +1131,8 @@ public class Heuristics {
                     ListaOrdenOriginal.set(y, (Piece) (ListaOrdenOriginal.get(y + 1)));
                     ListaOrdenOriginal.set(y + 1, temporal);
                 }
-            }//for
-        }//for
+            }
+        }
         return ListaOrdenOriginal;
     }
 

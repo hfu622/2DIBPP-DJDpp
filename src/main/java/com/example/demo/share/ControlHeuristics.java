@@ -12,16 +12,13 @@ public class ControlHeuristics {
 
     public void executeHeuristic(List<Piece> listapiezas, List<Sheet> listaObjetos, int heuristica) {
 
-        // ????????
         Sheet sheet = (Sheet) listaObjetos.get(0);
         int xObject = sheet.getXmax();
         int yObject = sheet.getYmax();
 
 
         switch (heuristica) {
-            // Djang_and_Finch (??????1/4)
-            // 原版的DJD应是采用bottomleft
-            case 1: //??????????????
+            case 1:
                 h.Djang_and_Finch(listapiezas, listaObjetos, xObject, yObject, "MALBR", 0.333, 0);
                 break;
             case 0:
@@ -36,11 +33,9 @@ public class ControlHeuristics {
             case 2:
                 h.Best_Fit_Decreasing(listapiezas, listaObjetos, xObject, yObject, "EC2");
                 break;
-            // Djang_and_Finch (fills at least 1/3 of the object in the initial stage)
             case 4:
                 h.Djang_and_Finch(listapiezas, listaObjetos, xObject, yObject, "BL", 0.3333, 0);
                 break;
-            // Djang_and_Finch (fills at least 1/4 of the object in the initial stage)
             case 5:
                 h.Djang_and_Finch(listapiezas, listaObjetos, xObject, yObject, "EC2", 0.5, 0);
                 break;
@@ -107,12 +102,10 @@ public class ControlHeuristics {
             ListaPiezasInside = objtemp.getPzasInside();
             Pu[i] = 0;
             ao = objtemp.gettotalsize();
-//			double aoi = 19.5 * 19.5;
             for (int j = 0; j < ListaPiezasInside.size(); j++) {
                 piezatemp = (Piece) ListaPiezasInside.get(j);
                 api = piezatemp.getTotalSize();
                 aux = (double) api / ao;
-//				aux = (double)api/aoi;
                 Pu[i] = Pu[i] + aux;
             }
             aux2 = Pu[i];
@@ -143,18 +136,36 @@ public class ControlHeuristics {
 
     public double calculateK(List<Sheet> listaObjetos) {
         double minR = 1e5;
-        for (int k = 0; k < listaObjetos.size() - 1; k++) {
-            Sheet objtemp = listaObjetos.get(k);
+        if (listaObjetos.size() > 1) {
+            int objnum = listaObjetos.size();
+            Sheet objtemp = listaObjetos.get(objnum - 1);
             double maxx = -1e5, maxy = -1e5;
             for (int i = 0; i < objtemp.getPzasInside().size(); i++) {
                 Piece piezatemp = objtemp.getPzasInside().get(i);
-                maxx = Math.max(maxx, piezatemp.getXmax());
-                maxy = Math.max(maxy, piezatemp.getYmax());
+                for (int j = 0; j < piezatemp.getvertices(); j++) {
+                    int px = piezatemp.coordX[j];
+                    int py = piezatemp.coordY[j];
+                    maxx = Math.max(maxx, px);
+                    maxy = Math.max(maxy, py);
+                }
             }
             double R = Math.min(maxx / objtemp.getXmax(), maxy / objtemp.getYmax());
-            minR = Math.min(minR, R);
+            return objnum - 1 + R;
+        } else {
+            Sheet objtemp = listaObjetos.get(0);
+            double maxx = -1e5, maxy = -1e5;
+            for (int i = 0; i < objtemp.getPzasInside().size(); i++) {
+                Piece piezatemp = objtemp.getPzasInside().get(i);
+                for (int j = 0; j < piezatemp.getvertices(); j++) {
+                    int px = piezatemp.coordX[j];
+                    int py = piezatemp.coordY[j];
+                    maxx = Math.max(maxx, px);
+                    maxy = Math.max(maxy, py);
+                }
+            }
+            double R = Math.min(maxx / objtemp.getXmax(), maxy / objtemp.getYmax());
+            return R;
         }
-        return listaObjetos.size() - 1 + minR;
     }
 
 }

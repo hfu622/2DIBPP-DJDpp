@@ -6,8 +6,8 @@ import java.util.List;
 
 @Data
 public class InputData {
-    private Integer width;  // 箱子的宽度
-    private Integer height; // 箱子的长度
-    private List<List<Points>> pieces;    // 存放零件的列表
-    private Integer num;    // 零件数量
+    private Integer width;
+    private Integer height;
+    private List<List<Points>> pieces;
+    private Integer num;
 }

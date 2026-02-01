@@ -6,26 +6,25 @@ import java.util.List;
 import static java.lang.Math.*;
 
 
-// 零件
 public class Piece implements Comparable<Piece>, Cloneable
 {
-	public int[] coordX;	//零件的X坐标
+	public int[] coordX;
 	public int[] coordY;
-	private int[] coriX;	//零件的原始X坐标
+	private int[] coriX;
 	private int[] coriY;
-	private int vertices;	//零件的顶点个数
+	private int vertices;
 	private int area;
 	private int xmin;
 	private int xmax;
 	private int ymin;
 	private int ymax;
-	private int ancho;   // width  (xmax - xmin) 
-	private int alto;    // height   (ymax - ymin)
-	private int numero_Pieza;		// Piece number
-	private double rotada;  	// angle of rotation
+	private int ancho;
+	private int alto;
+	private int numero_Pieza;
+	private double rotada;
 
-	public String strPid = "&"; //???id???????????????????????
-	public List<Integer> listofPiece = new ArrayList<>(); //???????????
+	public String strPid = "&";
+	public List<Integer> listofPiece = new ArrayList<>();
 
 	public void setStrPid(String strPid){
 		this.strPid = strPid;
@@ -35,7 +34,7 @@ public class Piece implements Comparable<Piece>, Cloneable
 		return this.strPid;
 	}
 
-	// ???
+
 	public List<Piece> child = new ArrayList<>();
 
 	public List<Piece> getChild() {
@@ -63,9 +62,9 @@ public class Piece implements Comparable<Piece>, Cloneable
 			this.coriX[i/2]=coordenadas[i];
 			this.coriY[i/2]=coordenadas[i+1];
 		}
-		this.xmax = ArrayOperations.Mayor(coordX);      
+		this.xmax = ArrayOperations.Mayor(coordX);
 		this.ymax = ArrayOperations.Mayor(coordY);
-		this.xmin = ArrayOperations.Menor(coordX);   
+		this.xmin = ArrayOperations.Menor(coordX);
 		this.ymin = ArrayOperations.Menor(coordY);
 		this.ancho = this.xmax-this.xmin;
 		this.alto = this.ymax-this.ymin;
@@ -128,7 +127,7 @@ public class Piece implements Comparable<Piece>, Cloneable
 		return numero_Pieza;
 	}
 
-	public int getvertices(){   
+	public int getvertices(){
 		return vertices;
 	}
 
@@ -157,12 +156,12 @@ public class Piece implements Comparable<Piece>, Cloneable
 	}
 
 	public int getYmax(){
-		return ArrayOperations.Mayor(this.coordY);  
+		return ArrayOperations.Mayor(this.coordY);
 	}
 
-	// This could be useful for measure irregularity.
+
 	public double getRectangularidad(){
-		return (double)area/(double)(alto*ancho);  
+		return (double)area/(double)(alto*ancho);
 	}
 
     public boolean isNonConvex(){
@@ -174,33 +173,29 @@ public class Piece implements Comparable<Piece>, Cloneable
     }
 
 	public void moveToXY(int x, int y, int referencia){
-		int despX = 0;   //movements along the X and Y axis.
+		int despX = 0;
 		int despY = 0;
 		switch(referencia)
 		{
-			//Bottom Right Corner
-			case 1: 
+			case 1:
 				despX = x - getXmax();
 				moveDistance(despX, 4);
 				despY = y - getYmin();
 				moveDistance(despY, 1);
 				break;
-			//Bottom Left Corner
-			case 2: 
+			case 2:
 				despX = x - getXmin();
 				moveDistance(despX, 4);
 				despY = y - getYmin();
 				moveDistance(despY, 1);
 				break;
-			//Top Right Corner
-			case 3: 
+			case 3:
 				despX = x - getXmax();
 				moveDistance(despX, 4);
 				despY = y - getYmax();
 				moveDistance(despY, 1);
 				break;
-			//Top Left Corner
-			case 4: 
+			case 4:
 				despX = x - getXmin();
 				moveDistance(despX, 4);
 				despY = y - getYmax();
@@ -214,28 +209,24 @@ public class Piece implements Comparable<Piece>, Cloneable
 	public void moveDistance( int dist, int dir ){
 		switch(dir)
 		{
-			//Up
 			case 1:
 				for(int i=0; i<vertices; i++)
 				{
 					coordY[i] += dist;
 				}
 				break;
-				//Down
-			case 2: 
+			case 2:
 				for(int i=0; i<vertices; i++)
 				{
 					coordY[i] -= dist;
 				}
 				break;
-				//Left
 			case 3:
 				for(int i=0; i<vertices; i++)
 				{
 					coordX[i] -= dist;
 				}
 				break;
-				//Right
 			case 4:
 				for(int i=0; i<vertices; i++)
 				{
@@ -243,36 +234,12 @@ public class Piece implements Comparable<Piece>, Cloneable
 				}
 				break;
 		}
-	}	
-
-
-
-	// Rotate a piece (counterclockwise) a given angle.
-	public void rotate(double angulo){
-		double radianes = toRadians(angulo + rotada);  //total angle: the rotated until now + the new rotation angle
-		double coseno = cos(radianes);
-		double seno = sin(radianes);
-		int tempXmin = xmin;
-		int tempYmin = ymin;
-		int tempX, tempY;
-		for(int i=0; i<vertices; i++)
-		{
-			tempX = coriX[i];
-			tempY = coriY[i];								
-			coordX[i] = (int)( round( (double)(tempX)*coseno   //rotates the total angle
-					- (double)(tempY)*seno  ));
-			coordY[i] = (int)( round( (double)(tempX)*seno
-					+ (double)(tempY)*coseno));
-		}	
-
-		rotada += angulo;
-		// todo:这里到底用不用移动？
-//		moveToXY(tempXmin, tempYmin, 2);
 	}
 
-	public void rotateCori(double angulo){
-		// 注意这里和上面rotate不一样，不能旋转angulo + rotada
-		double radianes = toRadians(angulo);  //total angle: the rotated until now + the new rotation angle
+
+
+	public void rotate(double angulo){
+		double radianes = toRadians(angulo + rotada);
 		double coseno = cos(radianes);
 		double seno = sin(radianes);
 		int tempXmin = xmin;
@@ -282,15 +249,33 @@ public class Piece implements Comparable<Piece>, Cloneable
 		{
 			tempX = coriX[i];
 			tempY = coriY[i];
-			coriX[i] = (int)( round( (double)(tempX)*coseno   //rotates the total angle
+			coordX[i] = (int)( round( (double)(tempX)*coseno
+					- (double)(tempY)*seno  ));
+			coordY[i] = (int)( round( (double)(tempX)*seno
+					+ (double)(tempY)*coseno));
+		}
+
+		rotada += angulo;
+	}
+
+	public void rotateCori(double angulo){
+		double radianes = toRadians(angulo);
+		double coseno = cos(radianes);
+		double seno = sin(radianes);
+		int tempXmin = xmin;
+		int tempYmin = ymin;
+		int tempX, tempY;
+		for(int i=0; i<vertices; i++)
+		{
+			tempX = coriX[i];
+			tempY = coriY[i];
+			coriX[i] = (int)( round( (double)(tempX)*coseno
 					- (double)(tempY)*seno  ));
 			coriY[i] = (int)( round( (double)(tempX)*seno
 					+ (double)(tempY)*coseno));
 		}
 
 		rotada += angulo;
-		// todo:这里到底用不用移动？
-//		moveToXY(tempXmin, tempYmin, 2);
 	}
 
 
@@ -300,12 +285,11 @@ public class Piece implements Comparable<Piece>, Cloneable
 		for(int i=0; i<vertices; i++)
 		{
 			coordX[i] = coriX[i];
-			coordY[i] = coriY[i];								
-		}	
+			coordY[i] = coriY[i];
+		}
 		rotada = 0;
-		//just cancel rotation
 		moveToXY(tempXmin, tempYmin, 2);
-	}  
+	}
 
 	public double isRotated(){
 		return rotada;
@@ -315,7 +299,7 @@ public class Piece implements Comparable<Piece>, Cloneable
 	public double anguloMayor()
 	{
 		double mayor = 0;
-		double[] angulosInt = new double[vertices]; 
+		double[] angulosInt = new double[vertices];
 		for(int i=0; i<vertices; i++)
 		{
 			if(angulosInt[i] > mayor)
@@ -325,8 +309,8 @@ public class Piece implements Comparable<Piece>, Cloneable
 		}
 		return mayor;
 	}
-	
-	
+
+
 	private int calculaArea(){
 		int n = this.vertices;
 		int suma = 0;
@@ -340,9 +324,8 @@ public class Piece implements Comparable<Piece>, Cloneable
 		suma = Math.abs(suma)/2;
 		return suma;
 	}
-	
 
-	// 找到是第几个点
+
    public int numVertice(int[] punto)
    {
 		for (int i=0; i < vertices; i++)
@@ -352,7 +335,7 @@ public class Piece implements Comparable<Piece>, Cloneable
 				return i;
 			}
 		}
-		
+
       return -1;
     }
 
@@ -368,7 +351,6 @@ public class Piece implements Comparable<Piece>, Cloneable
 	public int compareTo(Piece p) {
 		int area0 = this.getTotalSize();
 		int area1 = p.getTotalSize();
-		// ?????true??p??this???
 		if(area0 > area1 ){
 			return 1;
 		}

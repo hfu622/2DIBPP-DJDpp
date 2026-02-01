@@ -11,7 +11,6 @@ public class ArrayOperations {
     }
     
 	
-    // Largest ?????????
     public static int Mayor (int[] numeros){
 		int mayor = numeros[0];
 		for(int i=0; i<numeros.length; i++)
@@ -20,7 +19,6 @@ public class ArrayOperations {
 		return mayor;	
 	}
 	
-    //Smallest ?????????
     public static int Menor (int[] numeros){
 		int menor;
 		menor = numeros[0];
@@ -31,7 +29,6 @@ public class ArrayOperations {
 	}
 	
 	
-	//D??
 	public static int dFunction (int xp, int yp, int x1, int y1, int x2, int y2)
 	{
 		int D;

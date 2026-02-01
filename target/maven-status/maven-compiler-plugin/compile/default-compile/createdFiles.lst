@@ -38,6 +38,7 @@ com\example\demo\de\lighti\clipper\Clipper$ZFillCallback.class
 com\example\demo\de\lighti\clipper\Path$OutRec.class
 com\example\demo\de\lighti\clipper\Path$OutPt.class
 com\example\demo\de\lighti\clipper\PolyNode.class
+com\example\demo\share\Instance$3.class
 com\example\demo\de\lighti\clipper\Paths.class
 com\example\demo\share\ControlHeuristics.class
 com\example\demo\de\lighti\clipper\Point$DoublePoint.class

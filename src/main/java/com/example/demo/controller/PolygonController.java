@@ -19,8 +19,7 @@ public class PolygonController {
     @PostMapping("/input")
     public List<Container> inputData(@RequestBody InputData inputData) throws Exception {
         inputData.setNum(inputData.getPieces().size());
-        // 参数
-        int numHeuristics = 1;            // 使用的启发式算法个数，如MALBR, MALR, MABR, ...
+        int numHeuristics = 1;
         List<Sheet> sheets = RunHeuristics.run_input_data(numHeuristics, inputData);
         List<Container> containers = new ArrayList<>();
         for (Sheet sheet : sheets) {

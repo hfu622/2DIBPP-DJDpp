@@ -1,14 +1,14 @@
 package com.example.demo.nest.util;
 
 
-public class Config implements Cloneable{
-    public  static int CLIIPER_SCALE = 10000;
-    public  static double CURVE_TOLERANCE  = 0.02;
-    public  double SPACING ;
-    public  int POPULATION_SIZE;
-    public  int MUTATION_RATE ; //变异概率，0.01*MUTATION_RATE
-    private  boolean CONCAVE ;
-    public   boolean USE_HOLE ;
+public class Config implements Cloneable {
+    public static int CLIIPER_SCALE = 10000;
+    public static double CURVE_TOLERANCE = 0.02;
+    public double SPACING;
+    public int POPULATION_SIZE;
+    public int MUTATION_RATE;
+    private boolean CONCAVE;
+    public boolean USE_HOLE;
 
     @Override
     public Config clone() throws CloneNotSupportedException {
